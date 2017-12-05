@@ -1,0 +1,39 @@
+1. String
+   Integer
+   Date
+   Float
+   Float
+   
+2. A database should be used when the data necessary for an application to run will constantly need to be added,
+   deleted, or updated. Using a database will allow for the data to be added to, updated, or deleted while different
+   instances of the program are running. You would use a text file if there was information that your program needed
+   to run that would never, or very rarely, need to be changed.
+    
+3.  SQL is a declarative language as opposed to a procedural language this means that you do not specifiy how the requested
+    data is returned, but instead the application figures out the best way to return it to you. 
+    
+4.  A database is comprised of tables and those tables are made of rows and columns. The first row of a table designates catagories 
+    of data and all columns underneath the first row will contain data that belongs in the data catagory specified in the first row. 
+    Each row after the first contains all of the data for 1 object. 
+    
+5. A table will contain all of the rows and columns in a certain data set. A column will contain all data of a certain category in a
+   table and will be comprised of values from different objects that belong to the afformentioned category. A row will contain all of 
+   the data for 1 particuliar object. A value is the information that is contained in a row and a column.
+   
+6. Integer, Float, String
+
+7. The first query is asking for all of the dates when a payment was made and the amount that was paid for each payment that is stored
+   in the payments table.  The second query is asking for the amounts paid in each payment that was greater than 500. The third query will 
+   return all information from the row that contains a payee with the name "Mega Foods".
+   
+8.   SELECT email, signup
+     FROM users
+     WHERE name = "DeAndre Data";
+     
+     SELECT userid
+     FROM users
+     WHERE email = 'aleesia.algorithm@uw.edu'
+     
+     SELECT *
+     FROM users
+     WHERE userid = 4
