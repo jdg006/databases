@@ -1,0 +1,85 @@
+1. INSERT INTO
+   UPDATE
+   DELETE
+   
+2. The INSERT INTO command takes a table and if given parameters before the keyword "VALUES" It will insert
+   the values following the keyword into the columns designated by the parameters. If given no parameters then 
+   INSERT INTO will put the values in the columns in the order that was provided in the set up of the columns.
+   
+   The UPDATE command takes a table as an argument, but must then specify what value is being updated using a SET
+   and a WHERE clause. The WHERE clause says where the row is that should be updated and the SET clause says what 
+   column of that row needs to be changed to.
+   
+   The DELETE command takes a table as an argument and uses a WHERE clause to specify what value should be deleted.
+   
+3. Integer (number of items left in stock)
+   String (username)
+   Float (price of an item)
+   
+4. String
+   Boolean
+   Integer
+   Float(numeric)
+   
+   CREATE TABLE wedding (
+      name text,
+      rsvp boolean,
+      guest integer,
+      meals numeric(3, 1)
+  );
+  
+  ALTER TABLE wedding ADD COLUMN thank_you boolean;
+  ALTER TABLE wedding DROP COLUMN meals;
+  ALTER TABLE wedding ADD COLUMN table# integer;
+  DROP TABLE wedding;
+  
+  5. CREATE TABLE library (
+      ISBN integer,
+      title text,
+      author integer,
+      genre text,
+      published date,
+      copies integer,
+      available integer
+  );
+  
+  INSERT INTO library VALUES (11111, "title1", "author1", "genre1", 1/1/1111, 1, 1);
+  INSERT INTO library VALUES (22222, "title2", "author2", "genre2", 2/2/2222, 2, 2);
+  INSERT INTO library VALUES (33333, "title3", "author3", "genre3", 3/3/3333, 3, 3);
+  UPDATE library SET available=2 WHERE title = "title3";
+  DELETE FROM library WHERE title = "title1"
+  
+  6. CREATE TABLE spacecrafts (
+      id integer,
+      name text,
+      launched integer,
+      country text,
+      mission_description text,
+      orbiting text,
+      operational boolean,
+      distance_from_earth integer
+  );
+  
+  INSERT INTO spacecrafts VALUES (11111, "shuttle1", 1999, "USA", "take pictures of mercury", "mercury", true, 154565);
+  INSERT INTO spacecrafts VALUES (22222, "shuttle2", 2000, "USA", "take pictures of uranus", "uranus", true, 63535344);
+  INSERT INTO spacecrafts VALUES (33333, "shuttle3", 2001, "USA", "take pictures of jupiter", "jupiter", true, 4544444);
+  UPDATE spacecrafts SET operational=false WHERE name = "shuttle3";
+  DELETE FROM spacecrafts WHERE name = "shuttle1"
+  
+7. CREATE TABLE emails (
+      id integer,
+      subject text,
+      sender text,
+      added_recipients text,
+      body text,
+      timestamp timestamp,
+      read boolean,
+      email_chain_id integer
+  );
+  
+  INSERT INTO emails VALUES (1, "shuttle1", "john", "jimmy", "take pictures of mercury", '2001-08-28 01:00:00', true, 1);
+  INSERT INTO emails VALUES (2, "shuttle2", "mary", "sally, dave", "take pictures of uranus", '2001-09-28 01:00:00', true, 2);
+  INSERT INTO emails VALUES (3, "shuttle3", "tim", "ben", "take pictures of jupiter", '2001-10-28 01:00:00', true, 3);
+  UPDATE emails SET read=false WHERE id = 1;
+  DELETE FROM emails WHERE id = 3;
+  
