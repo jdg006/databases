@@ -1,0 +1,85 @@
+1. AVG takes an average of grouped numbers
+   find the average gpa of a group of students
+   MIN takes the smallest number from a group of numbers
+   find the student with the worst gpa
+   MAX takes the largest number from a group of numbers
+   find the student with the best gpa
+   SUM takes the sum of a group of numbers
+   find the total number of detentions of a group of students
+   COUNT returns the number of rows in a table (original or created via query)
+   find the total number of students in a class
+
+2. 993
+
+ sum |   donor
+-----+------------
+  20 | Samwell
+  10 | Daario
+  75 | Brienne
+ 120 | Tyrion
+  70 | Petyr
+  45 | Melisandre
+  25 | Bran
+  50 | Tormund
+  30 | Ygritte
+   7 | Gilly
+  25 | Jon
+  60 | Arya
+  20 | Theon
+  20 | Bronn
+ 120 | Margaery
+  90 | Missandei
+  33 | Sansa
+ 173 | Daenerys
+
+       average        |   donor
+----------------------+------------
+  20.0000000000000000 | Samwell
+  10.0000000000000000 | Daario
+  75.0000000000000000 | Brienne
+  40.0000000000000000 | Tyrion
+  70.0000000000000000 | Petyr
+  45.0000000000000000 | Melisandre
+  25.0000000000000000 | Bran
+  50.0000000000000000 | Tormund
+  30.0000000000000000 | Ygritte
+   7.0000000000000000 | Gilly
+  25.0000000000000000 | Jon
+  20.0000000000000000 | Arya
+  10.0000000000000000 | Theon
+  20.0000000000000000 | Bronn
+ 120.0000000000000000 | Margaery
+  22.5000000000000000 | Missandei
+  33.0000000000000000 | Sansa
+  86.5000000000000000 | Daenerys
+  
+  27
+  
+  120
+  
+  5
+  
+3. the order that they are in, in your select statement determines the order that they will be displayed in
+for example SELECT date, amount,  donor will display the results for the date first the amount second and the donor
+third despite the original table being ordered donor, amount, date.
+
+4. You can use offset to disqualify a certain group of people. If you have a table of individuals who ran a race and how they placed
+and the best two runners were determined to have used PEDs you can offset a descending order query by two to find
+the best runners who did not cheat.
+
+5. Order by will give your results in order which will make finding data easier. You know that if you have an 
+ascending ordered table and want to find the highest number you would know to look at the end or if you wanted to
+find the lowest number you would know to look at the beggining of the table.
+
+6. WHERE works before items are grouped in a table and having works after items have been grouped.
+
+7. SELECT id, amount
+   FROM payment
+   WHERE amount > 200;
+   
+8. SELECT * FROM cats ORDER BY intake_date;
+   SELECT * FROM cats ORDER BY date desc LIMIT 5;
+   SELECT * FROM cats WHERE gender = 'F' AND age >= 2;
+   SELECT SUM(amount) AS total, donor FROM donations GROUP BY donor ORDER BY total DESC LIMIT 5; 
+   SELECT SUM(amount) AS total, donor FROM donations GROUP BY donor ORDER BY total DESC LIMIT 9 OFFSET 5;
+   
