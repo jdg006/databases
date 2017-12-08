@@ -1,0 +1,107 @@
+1. You use a JOIN statement.
+
+2. CROSS JOIN takes two tables and juxtaposes each row of one table with each row of the other table.
+ You would use a CROSS JOIN when trying to find every combination of rows between two tables.
+ Batman has a data table of every super-villian and a table of every super-villian's side-kick (or head henchman). Batman
+ wants to find every combination of every super-villian and every supervillian's side-kick possible. To do this he would
+ use a CROSS JOIN.
+ 
+ INNER JOIN juxtaposes two tables where each row that is shown has a matching column value in a row from the 
+ other table. Each super-villian has an id column and every side-kick has a super-villian_id column. Batman
+ wants to know who the side-kick is for each super-villian that has a side-kick. For this he would use an INNER JOIN.
+ 
+ LEFT OUTER JOIN juxtaposes table1 and table2, but every row in table1 is present in the newly formed 
+ table whereas the the rows in table2 will only be present if their column value matches that of a column value
+ of a row in table1. Batman wants a list of all super-villians and wants to know first if they have a side-kick and if
+ they do have a side-kick, what is the name of that side-kick. To find this out batman would use a LEFT OUTER JOIN.
+ 
+ RIGHT OUTER JOIN juxtaposes table1 and table2, but every row in table 2 is present in the newly formed 
+ table whereas the rows in table 1 will only be present if their column value matches that of a column 
+ of a row in table2. Batman wants a list of all side-kicks or head henchman and wants to know if they have a villian that they 
+ work with and if so the name of the villian. To do this Batman would use a RIGHT OUTER JOIN.
+ 
+ FULL OUTER JOIN juxtaposes two tables. All rows of each table will be present in the new table. If one rows specified 
+ column value matches the column value of a row from the other table then those two rows are placed side by side. If, 
+ however, a row from one table has a specified column value that is not present in the specified column value of a row 
+ from the other table then a blank row is inserted next to the formerly mentioned row. Batman wants to know which villians
+ have a sidekick and who that sidekick is and he wants to see which side-kicks have villians and see who that villian is
+ at the same time. To do this Batman would use a FULL OUTER JOIN.
+ 
+ 3. A primary key is a value that is unique and present in every row of a table. A foreign key is a value that is present
+ in rows of a table that correspond to a primary key from another table. Batmans villian table has an id column. This is the primary key 
+ the foreign key is the villian_id in the sidekicks table. 
+
+4. Aliasing is the process of renaming a table or column in SQL. This is typically done to abbreviate a longer table or column
+name, or to give a table or column a more semantic name given the context. 
+
+5. SELECT p.professor, c.salary, c.vacation_days 
+FROM professor as p JOIN compensation as c ON p.id = c.professor_id;
+
+6. You would use a NATURAL JOIN when you wanted to compare two tables that shared column names. Instead of using a lengthy USING
+statement the NATURAL JOIN automatically uses column names that are the same in both tables to join the two.
+Batman has two tables a villian table and a crime table. The villian table has columns that list out potential super-powers that the
+villian has. If the villian has a power then under that column in the villian table the villians row will have a true value. The crimes
+table has the same set of powers columns that the villians have and if a certain power was used during a crime then that crime would have 
+a true value underneath that column. Batman would use a NATURAL JOIN to juxtapose a villian with the crime they potentially committed based 
+on their powers.
+
+7. SELECT e.name, s.shift
+   FROM employees AS e JOIN shifts AS s ON e.id = s.employee_id;
+   
+   SELECT e.name, s.shift
+   FROM employees AS e CROSS JOIN shifts AS s;
+   
+8. SELECT volunteers.name, Dogs.name
+   FROM volunteers LEFT OUTER JOIN dogs
+   ON volunteers.foster_id = dogs.id;
+   
+   SELECT adoptions.adopter, cats.name AS cat_name, dogs.name AS dog_name, adoptions.date
+   FROM adoptions LEFT OUTER JOIN cats ON adoptions.cat = cats.id
+   LEFT OUTER JOIN dogs ON adoptions.dog = dogs.id 
+   WHERE adoptions.date > 'One month ago';
+   
+   SELECT adoptions.adopter, dogs.name AS dog_name
+   FROM adoptions CROSS JOIN dogs
+   WHERE dogs.in_foster IS NULL AND adoptions.dog IS NULL;
+   
+   SELECT name 
+   FROM cats 
+   WHERE adoption_date IS NULL 
+   UNION
+   SELECT name 
+   FROM dogs WHERE in_foster IS NULL;
+   
+   SELECT volunteers.name AS foster_owner, dogs.name AS foster_dog 
+   FROM volunteers FULL OUTER JOIN dogs ON volunteers.foster_id = dogs.id;
+   
+9. SELECT adoptions.adopter, cats.name 
+   FROM adoptions JOIN cats ON adoptions.cat = cats.id
+   WHERE cats.name = 'Seashell';
+   
+10. SELECT patrons.name, holds.rank, books.title
+    FROM patrons 
+    JOIN holds ON patrons.id = holds.user_id
+    JOIN books ON holds.isbn = books.id 
+    WHERE books.title = 'harry potter';
+
+    SELECT books.title, transactions.checked_out_date
+    FROM books 
+    LEFT OUTER JOIN transactions ON books.id = transactions.isbn
+    WHERE transactions.checked_in_date IS NULL;
+    
+    SELECT books.title, SUM(transactions.checked_in_date - transactions.checked_out_date) AS days_checked_out
+    FROM books LEFT OUTER JOIN transactions ON books.id = transactions.isbn
+    GROUP BY books.title;
+    
+    SELECT books.title 
+    FROM books 
+    JOIN transactions ON books.id = transactions.isbn 
+    WHERE checked_out_date < 'five years before todays date';
+    
+    SELECT patrons.name, books.title
+    FROM patrons 
+    LEFT OUTER JOIN transactions ON patrons.id = transactions.user_id
+    LEFT OUTER JOIN books ON transactions.isbn = books.id;
+    
+    
+    
