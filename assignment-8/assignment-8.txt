@@ -1,0 +1,37 @@
+1. Normalization of data in a database increases the efficiency of updating and writing in new rows in the database because a normalized database is often
+split into many tables and the smaller the table is the more efficiently it will sort and store data. Normalization will also cause more efficient joins
+because the data is sorted in a logical structure and there are no superflous rows. This means that any data in a particuliar table will join perfectly 
+(every row of one table will join with every row of another table) if the data in between the two tables is related (the primary key of one is the foreign key 
+of the other). Normalization is necessary for any database that will constantly need to be updated and added to. A database for a social media website falls 
+into this category. Status, friends list, and profile pictures are all pieces of data that will have to be updated constantly for many users. This would require
+a normalized database to be able to efficiently store and update certain pieces of information.
+
+2.  First normal form or 1nf states that every column will have rows with only one value in each of them. Second normal form or 2nf states a column will not
+belong to a table in which a key is present that does not relate to the column. Third normal form or 3nf states that a column will not be present in a table
+where it is transitively dependent on a key that is not directly related to the column. Boyce Codd normal form or BCNF states that a table should have no more
+than one superkey present. A super key is a unique value that can be used to identify all other values in a table. 
+
+The first thing The social media website's database maintainer would do is make sure his or her database tables had only one value per column for each row. They
+would have to pay attention to certain pieces of data that would be able to be intuitively stored together under a column such as friends. Instead of having
+a column with multiple friend values in it for a particuliar row, the database maintainer would make sure that there was only one friend per row that would be
+under a particuliar column, but there would instead be as many rows as a user had friends. To make sure the database was 2nf the database maintainer would make
+sure that all of the tables in his or her database contained only one key per table that related to the attribute or attributes in that table. If the database 
+maintainer were to find that he or she included columns user_id, messages, friends in a data table this table would not be in 2nf because friends and messages
+are not directly related to each other, but both are related to user_id. The database maintainer would then split this table into two tables, one with user_id
+and messages and the other with user_id and friends. The database maintainer would make sure that their database was in 3nf by ensuring that no column is present
+in a table that is dependent upon another column in the table which is then dependent on another column. If the database maintainer had a table that included 
+columns user_id, message_id, subject, and body then in order to make their database 3nf the database maintainer would split this table into user_id, message_id
+for the first table and message_id, subject, body for the second. 
+
+3. entry_id, student_id     
+student_id, student_name, student_email    
+student_id, professor_id, subject, grade  
+professor_id, subject, professor_name
+
+4. The disadvantages of normalizing data is that it takes a great deal of time and usually money (if you are a company or part of a company) to normalize data.
+Normalized data will be spread out amongst many different tables which will create a situation in which longer, more complicated join statements will need to be
+used to get certain data values. The spread of the tables also makes them perform slower than if they were consolidated into one table.
+
+5. The original presentation of the data in the checkpoint is the epitome of denormalization, but you can take half steps to achieve certain goals for write and update 
+performance vs. read performance. If you wanted to decrease the amount of time that it took to look up a students grade in a class you would make sure to condense your
+tables and maybe combine entry_id, student_id, subject, and grade so that you can either use the entry_id or the student_id to find a grade they recieved in a certain class.
