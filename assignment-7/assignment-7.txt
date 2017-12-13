@@ -1,0 +1,53 @@
+1. SELECT guests.name 
+   FROM guests 
+   JOIN bookings ON guests.id != bookings.guest_id;
+   
+   SELECT bookings.check_in_date, bookings.check_out_date, bookings.room_id, guests.name
+   FROM bookings
+   JOIN guests
+   ON bookings.guest_id = guests.id
+   JOIN (
+    SELECT guest_id, check_in_date, check_out_date       
+    FROM bookings       
+    GROUP BY guest_id, check_in_date, check_out_date       
+    HAVING COUNT(guest_id) = 2) AS x 
+    ON bookings.guest_id = x.guest_id 
+    AND bookings.check_in_date = x.check_in_date 
+    AND bookings.check_out_date = x.check_out_date;
+    
+   SELECT bookings.check_in_date, bookings.check_out_date, bookings.room_id, guests.name
+   FROM bookings
+   JOIN guests
+   ON bookings.guest_id = guests.id 
+   JOIN (
+     SELECT guest_id, room_id from bookings
+     GROUP BY guest_id, room_id
+     HAVING COUNT(room_id) > 1) AS x
+    ON bookings.guest_id = x.guest_id
+    AND bookings.room_id = x.room_id;
+     
+    SELECT room_id, COUNT(DISTINCT guest_id) 
+    FROM bookings 
+    GROUP BY room_id;
+    
+2. 
+
+3. SELECT students.name 
+   FROM classes 
+   JOIN students ON classes.student_id = students.id 
+   WHERE classes.name = 'gym';
+   
+   SELECT grade, COUNT(*)
+   FROM grades 
+   WHERE class_id = 1 
+   GROUP BY grade;
+   
+   SELECT name, COUNT(*) 
+   FROM classes 
+   GROUP BY name;
+   
+   SELECT name, COUNT(*) 
+   FROM classes 
+   GROUP BY name ORDER BY count DESC LIMIT 1;
+   
+   
