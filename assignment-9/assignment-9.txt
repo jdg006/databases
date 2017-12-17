@@ -1,0 +1,191 @@
+1. A subquery is a query called inside of a query and is called in where, select, or from clauses.
+2. You would use a subquery inside of a select statement to join at most one column from another table or to perform
+an aggregate function on a column. 
+3. You can use a subquery in a select clause if you cannot use a join statement (for whatever reason) or to perform an
+aggregate function on a column of a table in which another column in your select statement cannot be included in a group by
+clause. You would use a subquery in a from clause in a situation where you want to query a table created through a query. 
+You would use a subquery in a where clause when you want to select items from a table where a certain value or values are either
+in or not in a table created by a query.
+4. A row constructor is a template row that is created to match against rows in a table.
+5. This depends on where the subquery is called from. If the subquery is called from the where clause and a null result is returned then the
+subquery will return no rows. IF a subquery is called from the select clause then whatever the subquery will return null for only the row that 
+did not match.
+6. IN, NOT IN, EXISTS, NOT EXISTS, ALL, SOME, ANY.
+7. SELECT employees.name, s.shift
+   FROM employees, (SELECT * FROM shifts) AS s 
+   WHERE employees.id = s.employee_id;
+   
+   SELECT employees.name, s.shift
+   FROM employees, (SELECT * FROM shifts) AS s;
+
+8. SELECT volunteers.name, (
+    SELECT dogs.name
+    FROM dogs 
+    WHERE dogs.id = volunteers.foster_id)
+   AS dog_name
+   FROM volunteers;
+   
+   SELECT adoptions.adopter, (
+      SELECT cats.name
+      FROM cats 
+      WHERE adoptions.cat = cats.id)
+   AS cat, (
+      SELECT dogs.name
+      FROM dogs 
+      WHERE adoptions.dog = dogs.id)
+   AS dog
+   FROM adoptions 
+   WHERE adoptions.date > 'one month ago';
+   
+   SELECT adoptions.adopter, d.name
+   FROM adoptions, (
+      SELECT dogs.name FROM dogs 
+      WHERE in_foster IS null)
+   AS d 
+   WHERE dog IS null;
+   
+   SELECT name
+   FROM cats
+   WHERE id NOT IN (
+    SELECT adoptions.cat
+    FROM adoptions
+    WHERE adoptions.cat IS NOT null)
+   UNION
+   SELECT name 
+   FROM dogs
+   WHERE id NOT IN (
+    SELECT adoptions.dog
+   FROM adoptions
+   WHERE adoptions.dog IS NOT null);
+   
+   SELECT volunteers.name AS foster_owner, (
+      SELECT name
+      FROM dogs
+      WHERE dogs.id = volunteers.foster_id)
+    AS foster_dog
+    FROM volunteers
+    UNION
+    SELECT (
+       SELECT volunteers.name
+       FROM volunteers
+       WHERE dogs.id = volunteers.foster_id)
+    AS foster_owner, dogs.name AS foster_dog
+    FROM dogs;
+    
+9. SELECT * 
+   FROM (
+      SELECT adoptions.adopter AS owner, (
+         SELECT name
+         FROM cats
+         WHERE adoptions.cat = cats.id )
+      AS adopted_cat
+      FROM adoptions)
+    AS s 
+    WHERE s.adopted_cat = 'Seashell';
+   
+10. SELECT name, rank
+    FROM (
+       SELECT rank, (
+          SELECT name
+          FROM patrons
+          WHERE patrons.id = holds.user_id),
+         (SELECT title
+          FROM books
+          WHERE books.id = holds.isbn)
+       FROM holds) AS x 
+     WHERE x.title = 'harry potter' ORDER BY x.rank;
+     
+    SELECT title, (
+       SELECT checked_out_date
+       FROM transactions
+       WHERE transactions.isbn = books.id AND transactions.checked_in_date is null)
+    FROM books;
+    
+    SELECT title, (
+       SELECT SUM(transactions.checked_in_date - transactions.checked_out_date)
+       AS days_checked_out
+       FROM transactions
+       WHERE books.id = transactions.isbn)
+    AS days_checked_out
+    FROM books;
+    
+    SELECT x.title
+    FROM (
+       SELECT books.title, (
+         SELECT transactions.checked_out_date
+         FROM transactions
+         WHERE books.id = transactions.isbn
+         GROUP BY transactions.checked_out_date)
+       FROM books) AS x 
+    WHERE checked_out_date < 'five years ago';
+    
+    SELECT name, (
+       SELECT title
+       FROM (
+          SELECT books.title, (
+             SELECT user_id
+             FROM (
+                SELECT * 
+                FROM transactions
+                WHERE checked_in_date IS null)
+            AS x
+            WHERE books.id = x.isbn)
+          FROM books)
+          AS x 
+        WHERE x.user_id = patrons.id)
+    FROM patrons;
+    
+11. SELECT model
+    FROM airplanes     
+    WHERE model NOT IN ( 
+        SELECT airplane_model        
+        FROM flights         
+        WHERE flight_number IN (     
+            SELECT flight_number             
+            FROM transactions             
+            GROUP BY flight_number             
+            HAVING (SUM(seats_sold) < 3)));
+
+    
+    SELECT x.origin, x.destination, CAST(x.seats_sold as decimal)/x.seat_capacity AS percent
+    FROM (
+        SELECT destination, origin, (
+            SELECT SUM(seats_sold) as seats_sold
+            FROM transactions
+            group by flight_number
+            HAVING (transactions.flight_number = flights.flight_number))
+            ,
+            (SELECT seat_capacity
+            FROM airplanes
+            WHERE flights.airplane_model = airplanes.model)
+        FROM flights) AS x
+    WHERE CAST(x.seats_sold as decimal)/x.seat_capacity > .9;
+    
+    SELECT flight_number, SUM(total_revenue)
+    FROM transactions
+    GROUP BY flight_number
+    HAVING (flight_number IN (
+        SELECT flight_number
+        FROM flights
+        WHERE destination = 'A' OR origin = 'A'))
+    ORDER BY flight_number;
+    
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
